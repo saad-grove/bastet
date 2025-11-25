@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
     location: {
       pncd: { type: String, required: true },
       cty: { type: String, required: true },
-      str: { type: String, required: true },
+      st: { type: String, required: true },
       addr: { type: String, required: true },
     },
     clinic: {
