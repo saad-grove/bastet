@@ -12,15 +12,13 @@ export const registerVeterinaryController = async (
     email,
     userType,
     password,
-    pncd,
-    cty,
-    st,
-    addr,
+    location,
     clinic,
     openTime,
     closeTime,
   } = req.body;
-  const location = { pncd, cty, st, addr };
+
+  const { pncd, cty, st, addr } = location;
 
   try {
     const vet = await userService.registerVeterinary(
@@ -28,7 +26,7 @@ export const registerVeterinaryController = async (
       email,
       userType,
       password,
-      location,
+      { pncd, cty, st, addr },
       clinic,
       openTime,
       closeTime
