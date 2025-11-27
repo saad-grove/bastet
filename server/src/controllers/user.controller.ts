@@ -37,3 +37,39 @@ export const registerVeterinaryController = async (
     res.status(500).json({ error: error.message });
   }
 };
+
+export const registerCustomerController = async (
+  req: Request,
+  res: Response
+) => {
+  const { name, email, userType, location, password } = req.body;
+
+  const { pncd, cty, st, addr } = location;
+
+  try {
+    const customer = await userService.registerCustomer(
+      name,
+      email,
+      userType,
+      { pncd, cty, st, addr },
+      password
+    );
+    res.status(201).json({ data: customer });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getAllVeterinaryController = async (
+  _req: Request,
+  res: Response
+) => {
+  try {
+    const vet = await userService.getAllVeterinary();
+    res.status(200).json({ total: vet.length, data: vet });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(400).json({ error: error.message });
+  }
+};
