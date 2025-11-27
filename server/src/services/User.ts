@@ -6,7 +6,7 @@ TODO:
 REGISTER VET*
 REGISTER CUSTOMER*
 LOGIN
-UPDATE LOCATION
+UPDATE LOCATION*
 UPDATE TIMES*
 DELETE
 FETCH ALL VET*
@@ -122,6 +122,10 @@ class User {
     }
   ) {
     return await userModel.findByIdAndUpdate(userId, { location });
+  }
+
+  public async deleteUserAccount(userId: string) {
+    return await userModel.findByIdAndDelete(userId);
   }
 }
 

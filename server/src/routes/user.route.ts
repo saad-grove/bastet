@@ -29,8 +29,13 @@ userRouter.put(
   userController.updateVeterinaryTimingController
 );
 userRouter.put(
-  "/user/location/:userId",
+  "/location/:userId",
   userController.updateUserLocationController
+);
+
+userRouter.delete(
+  "/delete/:userId",
+  userController.deleteUserAccountController
 );
 
 export default userRouter;

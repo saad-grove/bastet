@@ -130,7 +130,7 @@ export const updateVeterinaryTimingController = async (
       openTime,
       closeTime
     );
-    res.status(200).json({ message: "Timing updated" });
+    res.status(200).json({ message: "Timing updated", data: vet?.name });
   } catch (error: any) {
     console.log(error.message);
     res.status(400).json({ error: error.message });
@@ -153,7 +153,26 @@ export const updateUserLocationController = async (
       st,
       addr,
     });
-    res.status(200).json({ message: "Location updated of user" });
+    res
+      .status(200)
+      .json({ message: "Location updated of user", data: user?.name });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const deleteUserAccountController = async (
+  req: Request,
+  res: Response
+) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await userService.deleteUserAccount(userId);
+    res
+      .status(200)
+      .json({ message: "Account deleted of user", data: user?.name });
   } catch (error: any) {
     console.log(error.message);
     res.status(400).json({ error: error.message });
