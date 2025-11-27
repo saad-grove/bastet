@@ -116,3 +116,23 @@ export const disapproveVeterinaryController = async (
     res.status(400).json({ error: error.message });
   }
 };
+
+export const updateVeterinaryTimingController = async (
+  req: Request,
+  res: Response
+) => {
+  const { vetId } = req.params;
+  const { openTime, closeTime } = req.body;
+
+  try {
+    const vet = await userService.updateVeterinaryTiming(
+      vetId,
+      openTime,
+      closeTime
+    );
+    res.status(200).json({ message: "Timing updated" });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(400).json({ error: error.message });
+  }
+};

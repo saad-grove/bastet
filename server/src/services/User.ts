@@ -12,8 +12,8 @@ DELETE
 FETCH ALL VET*
 FETCH ALL CUST*
 FETCH SINGLE
-APPROVE
-DISAPPROVE
+APPROVE*
+DISAPPROVE*
 */
 
 class User {
@@ -99,6 +99,17 @@ class User {
 
   public async disapproveVeterinary(vetId: string) {
     return await userModel.findByIdAndUpdate(vetId, { status: "Not Approved" });
+  }
+
+  public async updateVeterinaryTiming(
+    vetId: string,
+    openTime: string,
+    closeTime: string
+  ) {
+    return await userModel.findByIdAndUpdate(vetId, {
+      open_time: openTime,
+      close_time: closeTime,
+    });
   }
 }
 

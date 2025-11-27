@@ -24,4 +24,9 @@ userRouter.patch(
   userController.disapproveVeterinaryController
 );
 
+userRouter.put(
+  "/vet/timing/:vetId",
+  userController.updateVeterinaryTimingController
+);
+
 export default userRouter;
