@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as userController from "../controllers/user.controller";
+import { protectRoute } from "../middleware/protect-route";
 
 const userRouter = Router();
 
@@ -15,6 +16,11 @@ userRouter.post("/auth/login", userController.loginUserController);
 
 userRouter.get("/vet/all", userController.getAllVeterinaryController);
 userRouter.get("/cust/all", userController.getAllCustomerController);
+userRouter.get(
+  "/auth/profile",
+  protectRoute,
+  userController.getProfileController
+);
 
 userRouter.patch(
   "/vet/approve/:vetId",

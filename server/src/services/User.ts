@@ -2,21 +2,6 @@ import { generateToken } from "../lib/generate-token";
 import userModel from "../models/user.model";
 import bcryptjs from "bcryptjs";
 
-/*
-TODO:
-REGISTER VET*
-REGISTER CUSTOMER*
-LOGIN
-UPDATE LOCATION*
-UPDATE TIMES*
-DELETE
-FETCH ALL VET*
-FETCH ALL CUST*
-FETCH SINGLE
-APPROVE*
-DISAPPROVE*
-*/
-
 class User {
   public async registerVeterinary(
     name: string,
@@ -90,6 +75,10 @@ class User {
     const token = generateToken(user._id.toString());
 
     return { token, user };
+  }
+
+  public async getProfile(userId: string) {
+    return await userModel.findById(userId).select("-password");
   }
 
   public async getAllCustomer() {

@@ -73,6 +73,19 @@ export const loginUserController = async (req: Request, res: Response) => {
   }
 };
 
+export const getProfileController = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user._id;
+    const user = await userService.getProfile(userId);
+    res.status(200).json({ data: user });
+  } catch (error: any) {
+    console.log("Authorization failed", error.message);
+    res
+      .status(401)
+      .json({ message: "Authorization failed", error: error.message });
+  }
+};
+
 export const getAllCustomerController = async (
   _req: Request,
   res: Response
