@@ -61,6 +61,19 @@ export const registerCustomerController = async (
   }
 };
 
+export const getAllCustomerController = async (
+  _req: Request,
+  res: Response
+) => {
+  try {
+    const cust = await userService.getAllCustomer();
+    res.status(200).json({ total: cust.length, data: cust });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(400).json({ error: error.message });
+  }
+};
+
 export const getAllVeterinaryController = async (
   _req: Request,
   res: Response

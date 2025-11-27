@@ -13,5 +13,6 @@ userRouter.post(
 );
 
 userRouter.get("/vet/all", userController.getAllVeterinaryController);
+userRouter.get("/cust/all", userController.getAllCustomerController);
 
 export default userRouter;

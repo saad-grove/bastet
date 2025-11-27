@@ -4,7 +4,7 @@ import bcryptjs from "bcryptjs";
 /*
 TODO:
 REGISTER VET*
-REGISTER CUSTOMER
+REGISTER CUSTOMER*
 LOGIN
 UPDATE LOCATION
 UPDATE TIMES
@@ -77,6 +77,13 @@ class User {
       location,
       password: hashedPassword,
     });
+  }
+
+  public async getAllCustomer() {
+    return await userModel
+      .find({ user_type: "Customer" })
+      .sort({ createdAt: -1 })
+      .select("-password");
   }
 
   public async getAllVeterinary() {
