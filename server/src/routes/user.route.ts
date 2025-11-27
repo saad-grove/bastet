@@ -28,5 +28,9 @@ userRouter.put(
   "/vet/timing/:vetId",
   userController.updateVeterinaryTimingController
 );
+userRouter.put(
+  "/user/location/:userId",
+  userController.updateUserLocationController
+);
 
 export default userRouter;

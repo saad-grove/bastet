@@ -136,3 +136,26 @@ export const updateVeterinaryTimingController = async (
     res.status(400).json({ error: error.message });
   }
 };
+
+export const updateUserLocationController = async (
+  req: Request,
+  res: Response
+) => {
+  const { userId } = req.params;
+  const { location } = req.body;
+
+  const { pncd, cty, st, addr } = location;
+
+  try {
+    const user = await userService.updateUserLocation(userId, {
+      pncd,
+      cty,
+      st,
+      addr,
+    });
+    res.status(200).json({ message: "Location updated of user" });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(400).json({ error: error.message });
+  }
+};

@@ -7,7 +7,7 @@ REGISTER VET*
 REGISTER CUSTOMER*
 LOGIN
 UPDATE LOCATION
-UPDATE TIMES
+UPDATE TIMES*
 DELETE
 FETCH ALL VET*
 FETCH ALL CUST*
@@ -110,6 +110,18 @@ class User {
       open_time: openTime,
       close_time: closeTime,
     });
+  }
+
+  public async updateUserLocation(
+    userId: string,
+    location: {
+      pncd: string;
+      cty: string;
+      st: string;
+      addr: string;
+    }
+  ) {
+    return await userModel.findByIdAndUpdate(userId, { location });
   }
 }
 
