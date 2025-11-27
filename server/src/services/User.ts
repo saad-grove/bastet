@@ -1,0 +1,134 @@
+import { generateToken } from "../lib/generate-token";
+import userModel from "../models/user.model";
+import bcryptjs from "bcryptjs";
+
+class User {
+  public async registerVeterinary(
+    name: string,
+    email: string,
+    userType: string,
+    password: string,
+    location: {
+      pncd: string;
+      cty: string;
+      st: string;
+      addr: string;
+    },
+    clinic: string,
+    openTime: string,
+    closeTime: string
+  ) {
+    const existing = await userModel.findOne({ email });
+    if (existing) throw new Error("User account already exist");
+
+    const status = "Not Approved";
+    const hashedPassword = await bcryptjs.hash(password, 10);
+
+    const vet = await userModel.create({
+      name,
+      email,
+      user_type: userType,
+      password: hashedPassword,
+      location,
+      clinic,
+      open_time: openTime,
+      close_time: closeTime,
+      status,
+    });
+
+    return vet;
+  }
+
+  public async registerCustomer(
+    name: string,
+    email: string,
+    userType: string,
+    location: {
+      pncd: string;
+      cty: string;
+      st: string;
+      addr: string;
+    },
+    password: string
+  ) {
+    const existing = await userModel.findOne({ email });
+    if (existing) throw new Error("Customer already exist");
+
+    const hashedPassword = await bcryptjs.hash(password, 10);
+
+    return await userModel.create({
+      name,
+      email,
+      user_type: userType,
+      location,
+      password: hashedPassword,
+    });
+  }
+
+  public async loginUser(email: string, password: string) {
+    const user = await userModel.findOne({ email });
+    if (!user) throw new Error("User do not exist");
+
+    const isPasswordValid = await bcryptjs.compare(password, user.password);
+    if (!isPasswordValid) throw new Error("Password is not valid");
+
+    const token = generateToken(user._id.toString());
+
+    return { token, user };
+  }
+
+  public async getProfile(userId: string) {
+    return await userModel.findById(userId).select("-password");
+  }
+
+  public async getAllCustomer() {
+    return await userModel
+      .find({ user_type: "Customer" })
+      .sort({ createdAt: -1 })
+      .select("-password");
+  }
+
+  public async getAllVeterinary() {
+    return await userModel
+      .find({ user_type: "Veterinary" })
+      .sort({ createdAt: -1 })
+      .select("-password");
+  }
+
+  public async approveVeterinary(vetId: string) {
+    return await userModel.findByIdAndUpdate(vetId, { status: "Approved" });
+  }
+
+  public async disapproveVeterinary(vetId: string) {
+    return await userModel.findByIdAndUpdate(vetId, { status: "Not Approved" });
+  }
+
+  public async updateVeterinaryTiming(
+    vetId: string,
+    openTime: string,
+    closeTime: string
+  ) {
+    return await userModel.findByIdAndUpdate(vetId, {
+      open_time: openTime,
+      close_time: closeTime,
+    });
+  }
+
+  public async updateUserLocation(
+    userId: string,
+    location: {
+      pncd: string;
+      cty: string;
+      st: string;
+      addr: string;
+    }
+  ) {
+    return await userModel.findByIdAndUpdate(userId, { location });
+  }
+
+  public async deleteUserAccount(userId: string) {
+    return await userModel.findByIdAndDelete(userId);
+  }
+}
+
+export default User;
