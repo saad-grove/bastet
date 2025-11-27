@@ -11,6 +11,7 @@ userRouter.post(
   "/auth/register/cust",
   userController.registerCustomerController
 );
+userRouter.post("/auth/login", userController.loginUserController);
 
 userRouter.get("/vet/all", userController.getAllVeterinaryController);
 userRouter.get("/cust/all", userController.getAllCustomerController);

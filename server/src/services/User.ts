@@ -1,3 +1,4 @@
+import { generateToken } from "../lib/generate-token";
 import userModel from "../models/user.model";
 import bcryptjs from "bcryptjs";
 
@@ -77,6 +78,18 @@ class User {
       location,
       password: hashedPassword,
     });
+  }
+
+  public async loginUser(email: string, password: string) {
+    const user = await userModel.findOne({ email });
+    if (!user) throw new Error("User do not exist");
+
+    const isPasswordValid = await bcryptjs.compare(password, user.password);
+    if (!isPasswordValid) throw new Error("Password is not valid");
+
+    const token = generateToken(user._id.toString());
+
+    return { token, user };
   }
 
   public async getAllCustomer() {

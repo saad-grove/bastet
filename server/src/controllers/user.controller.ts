@@ -61,6 +61,18 @@ export const registerCustomerController = async (
   }
 };
 
+export const loginUserController = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  try {
+    const { token, user } = await userService.loginUser(email, password);
+    res.status(200).json({ data: user, token: token });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const getAllCustomerController = async (
   _req: Request,
   res: Response
