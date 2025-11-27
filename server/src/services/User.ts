@@ -10,7 +10,7 @@ UPDATE LOCATION
 UPDATE TIMES
 DELETE
 FETCH ALL VET*
-FETCH ALL CUST
+FETCH ALL CUST*
 FETCH SINGLE
 APPROVE
 DISAPPROVE
@@ -91,6 +91,14 @@ class User {
       .find({ user_type: "Veterinary" })
       .sort({ createdAt: -1 })
       .select("-password");
+  }
+
+  public async approveVeterinary(vetId: string) {
+    return await userModel.findByIdAndUpdate(vetId, { status: "Approved" });
+  }
+
+  public async disapproveVeterinary(vetId: string) {
+    return await userModel.findByIdAndUpdate(vetId, { status: "Not Approved" });
   }
 }
 

@@ -15,4 +15,13 @@ userRouter.post(
 userRouter.get("/vet/all", userController.getAllVeterinaryController);
 userRouter.get("/cust/all", userController.getAllCustomerController);
 
+userRouter.patch(
+  "/vet/approve/:vetId",
+  userController.approveVeterinaryController
+);
+userRouter.patch(
+  "/vet/disapprove/:vetId",
+  userController.disapproveVeterinaryController
+);
+
 export default userRouter;

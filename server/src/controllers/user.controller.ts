@@ -86,3 +86,33 @@ export const getAllVeterinaryController = async (
     res.status(400).json({ error: error.message });
   }
 };
+
+export const approveVeterinaryController = async (
+  req: Request,
+  res: Response
+) => {
+  const { vetId } = req.params;
+
+  try {
+    const vet = await userService.approveVeterinary(vetId);
+    res.status(200).json({ data: vet });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const disapproveVeterinaryController = async (
+  req: Request,
+  res: Response
+) => {
+  const { vetId } = req.params;
+
+  try {
+    const vet = await userService.disapproveVeterinary(vetId);
+    res.status(200).json({ data: vet });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(400).json({ error: error.message });
+  }
+};
